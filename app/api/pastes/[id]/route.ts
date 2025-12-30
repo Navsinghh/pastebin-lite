@@ -2,7 +2,9 @@ import kv from "@/lib/kv";
 import { getNow } from "@/lib/time";
 
 export async function GET(_: Request, { params }: { params: { id: string } }) {
-  const key = `paste:${params.id}`;  console.log('Fetching paste with key:', key);  const paste = (await kv.get(key)) as any;
+  const key = `paste:${params.id}`;
+  console.log("Fetching paste with key:", key);
+  const paste = (await kv.get(key)) as any;
 
   if (!paste) {
     return Response.json({ error: "Not found" }, { status: 404 });
