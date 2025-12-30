@@ -31,6 +31,8 @@ export async function POST(req: Request) {
     views: 0,
   });
 
+  console.log('Paste created with key:', `paste:${id}`);
+
   // Return a URL that points to /p/:id on the app domain. If NEXT_PUBLIC_BASE_URL
   // is not set, return a path-only URL (no hardcoded localhost).
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "";
