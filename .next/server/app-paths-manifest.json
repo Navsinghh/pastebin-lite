@@ -1,6 +1,6 @@
 {
-  "/api/healthz/route": "app/api/healthz/route.js",
   "/api/pastes/route": "app/api/pastes/route.js",
+  "/api/healthz/route": "app/api/healthz/route.js",
   "/api/pastes/[id]/route": "app/api/pastes/[id]/route.js",
   "/p/[id]/route": "app/p/[id]/route.js"
 }

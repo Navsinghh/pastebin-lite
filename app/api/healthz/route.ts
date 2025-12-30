@@ -2,12 +2,13 @@ import kv from "@/lib/kv";
 
 export async function GET() {
   try {
+    console.log("DATABASE_URL set:", !!process.env.DATABASE_URL);
     console.log("Testing DB connection...");
     await kv.get("health-check");
     console.log("DB ok");
     return Response.json({ ok: true });
   } catch (err) {
-    console.error("DB error:", err);
+    console.error("DB error:", (err as Error).message);
     return Response.json({ ok: false }, { status: 500 });
   }
 }
