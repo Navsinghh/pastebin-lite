@@ -12,7 +12,7 @@ function escapeHtml(s: string) {
 
 export async function GET(_: Request, { params }: { params: { id: string } }) {
   const key = `paste:${params.id}`;
-  const paste = await kv.get(key) as any;
+  const paste = (await kv.get(key)) as any;
 
   if (!paste) {
     const notFoundHtml = `<html><body><h1>404 Not Found</h1></body></html>`;

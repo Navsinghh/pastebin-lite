@@ -11,7 +11,10 @@ if (process.env.DATABASE_URL) {
   // Use Postgres as a simple key/value store. This allows using Vercel Postgres
   // from the Marketplace by setting DATABASE_URL in project env vars.
   const { Pool } = require("pg");
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL, family: 4 });
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    family: 4,
+  });
 
   // Ensure table exists. Use a simple table with key and jsonb value.
   async function ensureTable() {
