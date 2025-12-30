@@ -6,25 +6,31 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
   const paste = await kv.get<any>(key);
 
   if (!paste) {
-    return new Response(JSON.stringify({ error: "Not found" }), { status: 404 });
+    return Response.json({ error: "Not found" }, { status: 404 });
   }
 
   const now = getNow();
 
   if (paste.expiresAt && now >= paste.expiresAt) {
-    return new Response(JSON.stringify({ error: "Expired" }), { status: 404 });
+    return Response.json({ error: "Expired" }, { status: 404 });
   }
 
   if (paste.maxViews !== null && paste.views >= paste.maxViews) {
-    return new Response(JSON.stringify({ error: "View limit exceeded" }), { status: 404 });
+    return Response.json({ error: "View limit exceeded" }, { status: 404 });
   }
 
+  // increment views and clamp remaining views to zero minimum
   paste.views += 1;
   await kv.set(key, paste);
 
+  const remaining =
+    paste.maxViews !== null ? Math.max(0, paste.maxViews - paste.views) : null;
+
   return Response.json({
     content: paste.content,
-    remaining_views: paste.maxViews ? paste.maxViews - paste.views : null,
-    expires_at: paste.expiresAt ? new Date(paste.expiresAt).toISOString() : null
+    remaining_views: remaining,
+    expires_at: paste.expiresAt
+      ? new Date(paste.expiresAt).toISOString()
+      : null,
   });
 }
